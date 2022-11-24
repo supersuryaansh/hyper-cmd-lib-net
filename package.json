@@ -8,12 +8,12 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/bitfinexcom/hyper-cmd-lib-net.git"
+    "url": "https://github.com/prdn/hyper-cmd-lib-net.git"
   },
   "author": "Paolo Ardoino (@prdn)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bitfinexcom/hyper-cmd-lib-net/issues"
+    "url": "https://github.com/prdn/hyper-cmd-lib-net/issues"
   },
-  "homepage": "https://github.com/bitfinexcom/hyper-cmd-lib-net"
+  "homepage": "https://github.com/prdn/hyper-cmd-lib-net"
 }

@@ -66,6 +66,8 @@ function connPiper(connection, _dst, opts = {}, stats = {}) {
       opts.onDestroy(err)
     }
   }
+
+  return {}
 }
 
 function connRemoteCtrl(connection, opts = {}, stats = {}) {

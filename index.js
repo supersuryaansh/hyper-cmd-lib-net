@@ -1,4 +1,4 @@
-function connHandler(connection, _dst, opts = {}, stats = {}) {
+function connPiper(connection, _dst, opts = {}, stats = {}) {
   const loc = _dst()
   if (loc === null) {
     connection.destroy() // don't return rejection error
@@ -54,13 +54,67 @@ function connHandler(connection, _dst, opts = {}, stats = {}) {
   })
 
   function destroy (err) {
-    if (destroyed) return
+    if (destroyed) {
+      return
+    }
+
     destroyed = true
     loc.destroy(err)
     connection.destroy(err)
+
+    if (opts.onDestroy) {
+      opts.onDestroy(err)
+    }
+  }
+}
+
+function connRemoteCtrl(connection, opts = {}, stats = {}) {
+  if (!stats.remCnt) {
+    stats.remCnt = 0
+  }
+
+  stats.remCnt++
+
+  let destroyed = false
+
+  connection.on('error', destroy)
+  connection.on('close', destroy)
+
+  connection.on('error', err => {
+    if (opts.debug) {
+      console.error(err)
+    }
+  }).on('close', () => {
+    stats.remCnt--
+  })
+
+  function destroy (err) {
+    if (destroyed) {
+      return
+    }
+
+    destroyed = true
+    connection.destroy(err)
+
+    if (opts.onDestroy) {
+      opts.onDestroy(err)
+    }
+  }
+
+  function send (data) {
+    if (destroyed) {
+      return
+    }
+
+    connection.write(data)
+  }
+
+  return {
+    send: send
   }
 }
 
 module.exports = {
-  connHandler: connHandler
+  connPiper: connPiper,
+  connRemoteCtrl: connRemoteCtrl
 }

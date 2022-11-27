@@ -59,6 +59,7 @@ function connPiper(connection, _dst, opts = {}, stats = {}) {
     }
 
     destroyed = true
+
     loc.destroy(err)
     connection.destroy(err)
 
@@ -96,6 +97,7 @@ function connRemoteCtrl(connection, opts = {}, stats = {}) {
     }
 
     destroyed = true
+
     connection.destroy(err)
 
     if (opts.onDestroy) {

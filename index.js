@@ -27,36 +27,22 @@ function connPiper(connection, _dst, opts = {}, stats = {}) {
 
   loc.pipe(connection).pipe(loc)
 
-  loc.on('error', destroy)
-  loc.on('close', destroy)
-
-  connection.on('error', destroy)
-  connection.on('close', destroy)
+  loc.on('error', destroy).on('close', destroy)
+  connection.on('error', destroy).on('close', destroy)
 
   loc.on('connect', err => {
     if (opts.debug) {
       console.log('connected')
     }
-  }).on('error', err => {
-    if (opts.debug) {
-      console.error(err)
-    }
-  }).on('close', () => {
-    stats.locCnt--
-  })
-
-  connection.on('error', err => {
-    if (opts.debug) {
-      console.error(err)
-    }
-  }).on('close', () => {
-    stats.remCnt--
   })
 
   function destroy (err) {
     if (destroyed) {
       return
     }
+
+    stats.locCnt--
+    stats.remCnt--
 
     destroyed = true
 
@@ -87,14 +73,14 @@ function connRemoteCtrl(connection, opts = {}, stats = {}) {
     if (opts.debug) {
       console.error(err)
     }
-  }).on('close', () => {
-    stats.remCnt--
   })
 
   function destroy (err) {
     if (destroyed) {
       return
     }
+
+    stats.remCnt--
 
     destroyed = true
 

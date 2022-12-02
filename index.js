@@ -1,4 +1,4 @@
-function connPiper(connection, _dst, opts = {}, stats = {}) {
+function connPiper (connection, _dst, opts = {}, stats = {}) {
   const loc = _dst()
   if (loc === null) {
     connection.destroy() // don't return rejection error
@@ -34,6 +34,9 @@ function connPiper(connection, _dst, opts = {}, stats = {}) {
     if (opts.debug) {
       console.log('connected')
     }
+    if (err) {
+      console.error(err)
+    }
   })
 
   function destroy (err) {
@@ -57,7 +60,7 @@ function connPiper(connection, _dst, opts = {}, stats = {}) {
   return {}
 }
 
-function connRemoteCtrl(connection, opts = {}, stats = {}) {
+function connRemoteCtrl (connection, opts = {}, stats = {}) {
   if (!stats.remCnt) {
     stats.remCnt = 0
   }
@@ -100,11 +103,11 @@ function connRemoteCtrl(connection, opts = {}, stats = {}) {
   }
 
   return {
-    send: send
+    send
   }
 }
 
 module.exports = {
-  connPiper: connPiper,
-  connRemoteCtrl: connRemoteCtrl
+  connPiper,
+  connRemoteCtrl
 }

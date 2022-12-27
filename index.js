@@ -1,3 +1,5 @@
+const { gzip, gunzip } = require('node:zlib')
+
 function connPiper (connection, _dst, opts = {}, stats = {}) {
   const loc = _dst()
   if (loc === null) {
@@ -25,7 +27,30 @@ function connPiper (connection, _dst, opts = {}, stats = {}) {
 
   let destroyed = false
 
-  loc.pipe(connection).pipe(loc)
+  if (opts.compress) {
+    const l2c = opts.isServer ? gzip : gunzip
+    const c2l = opts.isServer ? gunzip : gzip
+
+    loc.on('data', d => {
+      l2c(d, (e, o) => {
+        connection.write(o)
+      })
+    })
+
+    connection.on('data', d => {
+      c2l(d, (e, o) => {
+        loc.write(o)
+      })
+    })
+  } else {
+    loc.on('data', d => {
+      connection.write(o)
+    })
+
+    connection.on('data', d => {
+      loc.write(o)
+    })
+  }
 
   loc.on('error', destroy).on('close', destroy)
   connection.on('error', destroy).on('close', destroy)

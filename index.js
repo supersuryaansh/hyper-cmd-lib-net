@@ -32,7 +32,9 @@ function connPiper (connection, _dst, opts = {}, stats = {}) {
     const c2l = opts.isServer ? gunzip : gzip
 
     loc.on('data', d => {
+      loc.pause()
       l2c(d, (err, o) => {
+        loc.resume()
         if (err) {
           console.error(err)
           destroy(err)
@@ -44,7 +46,9 @@ function connPiper (connection, _dst, opts = {}, stats = {}) {
     })
 
     connection.on('data', d => {
+      connection.pause()
       c2l(d, (err, o) => {
+        connection.resume()
         if (err) {
           console.error(err)
           destroy(err)

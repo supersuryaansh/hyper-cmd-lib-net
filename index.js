@@ -32,13 +32,25 @@ function connPiper (connection, _dst, opts = {}, stats = {}) {
     const c2l = opts.isServer ? gunzip : gzip
 
     loc.on('data', d => {
-      l2c(d, (e, o) => {
+      l2c(d, (err, o) => {
+        if (err) {
+          console.error(err)
+          destory(err)
+          return
+        }
+
         connection.write(o)
       })
     })
 
     connection.on('data', d => {
-      c2l(d, (e, o) => {
+      c2l(d, (err, o) => {
+        if (err) {
+          console.error(err)
+          destory(err)
+          return
+        }
+
         loc.write(o)
       })
     })

@@ -35,7 +35,7 @@ function connPiper (connection, _dst, opts = {}, stats = {}) {
       l2c(d, (err, o) => {
         if (err) {
           console.error(err)
-          destory(err)
+          destroy(err)
           return
         }
 
@@ -47,7 +47,7 @@ function connPiper (connection, _dst, opts = {}, stats = {}) {
       c2l(d, (err, o) => {
         if (err) {
           console.error(err)
-          destory(err)
+          destroy(err)
           return
         }
 

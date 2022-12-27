@@ -56,11 +56,11 @@ function connPiper (connection, _dst, opts = {}, stats = {}) {
     })
   } else {
     loc.on('data', d => {
-      connection.write(o)
+      connection.write(d)
     })
 
     connection.on('data', d => {
-      loc.write(o)
+      loc.write(d)
     })
   }
 

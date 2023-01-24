@@ -68,8 +68,8 @@ function connPiper (connection, _dst, opts = {}, stats = {}) {
     })
   }
 
-  loc.on('error', destroy).on('close', destroy)
-  connection.on('error', destroy).on('close', destroy)
+  loc.on('error', destroy).on('close', destroy).on('end', destroy)
+  connection.on('error', destroy).on('close', destroy).on('end', destroy)
 
   loc.on('connect', err => {
     if (opts.debug) {
@@ -89,6 +89,9 @@ function connPiper (connection, _dst, opts = {}, stats = {}) {
     stats.remCnt--
 
     destroyed = true
+
+    loc.end()
+    connection.end()
 
     loc.destroy(err)
     connection.destroy(err)

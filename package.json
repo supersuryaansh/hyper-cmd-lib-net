@@ -1,10 +1,9 @@
 {
   "name": "hyper-cmd-lib-net",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "HyperCmd Net lib",
   "main": "index.js",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {},
   "repository": {
     "type": "git",

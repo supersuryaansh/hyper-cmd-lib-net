@@ -1,4 +1,6 @@
+if (opts.compress){
 const { gzip, gunzip } = require('node:zlib')
+}
 
 function connPiper (connection, _dst, opts = {}, stats = {}) {
   const loc = _dst()
